@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+<section class="pago-section">
+  <h2>Reserva registrada</h2>
+  <p><strong id="nombre"><%= nombre %></strong> <strong
+      id="email">(<%=correo%>)</strong>, estás reservando para el <strong><%=
+      nombreDia %></strong> <strong id="fecha"><%= fechaFormateada %></strong> a
+    las <strong id="hora"><%= hora %>
+      hs</strong>.</p>
+
+  <p>Completá tu pago para confirmar tu turno:</p>
+
+  <form action="/create-order" method="post">
+    <input type="hidden" name="correo" value="<%= correo %>">
+    <input type="hidden" name="nombre" value="<%= nombre %>">
+    <input type="hidden" name="fecha" value="<%= fechaFormateada %>">
+    <input type="hidden" name="hora" value="<%= hora %>">
+    <button type="submit" id="btn-pago-mp" class="btn-pago-mp">Pagar con Mercado
+      Pago</button>
+  </form>
+
+  <div class="volver">
+    <a href="/">
+      <button class="btn-volver">← Volver al inicio</button>
+    </a>
+  </div>
+</section>
+<script type="text/javascript" src="/js/script.js"></script>
+<%- include('partials/footer') %>

@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<section class="calendar-section">
+  <h2>Disponibilidad de la cancha</h2>
+
+  <div class="calendar-top">
+    <label for="fecha">Seleccioná la fecha:</label>
+    <input type="date" id="fecha" name="fecha" value="<%= fechaISO %>"
+      onchange="location.href='/calendario?fecha=' + this.value">
+    <p class="dia-seleccionado">Día: <%= nombreDia %> <%= fechaFormateada %></p>
+  </div>
+
+  <div class="horarios-grid">
+    <% if (horarios.length > 0) { %>
+    <% horarios[0].horas.forEach(item => { %>
+    <div class="horario-row <%= (item.estado === 'reservado') && "ocupado" %>">
+      <div class="hora"><%= item.hora %></div>
+      <% if (item.estado === 'disponible') { %>
+      <form action="/completar" method="GET">
+        <input type="hidden" name="fecha" value="<%= fechaISO %>">
+        <input type="hidden" name="hora" value="<%= item.hora %>">
+        <button type="submit" class="disponible">Disponible</button>
+      </form>
+      <% } else { %>
+
+        <p class="reservado-por">
+          Reservado por <strong><%= item.nombre %></strong>
+        </p>
+      
+      <% } %>
+    </div>
+    <% }) %>
+
+    <% } else { %>
+      <h3>No existen turnos para la fecha seleccionada</h3>
+    <% } %>
+  </div>
+
+  <div class="volver">
+    <a href="/">
+      <button class="btn-volver">← Volver al inicio</button>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+
+

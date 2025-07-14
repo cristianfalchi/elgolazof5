@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<!-- en la vista EJS -->
+<div id="walletBrick_container" data-preference="<%= preferenceId %>"></div>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
+<script>
+     
+    
+  // Configure sua chave pública do Mercado Pago
+  const publicKey = "APP_USR-f05fb5e1-e30f-465d-8394-7c703b1fd20d";
+  // Configure o ID de preferência que você deve receber do seu backend
+  const container = document.getElementById('walletBrick_container');
+  const preferenceId = container.dataset.preference;
+  console.log(preferenceId);
+
+  // Inicializa o SDK do Mercado Pago
+  const mp = new MercadoPago(publicKey);
+
+  // Cria o botão de pagamento
+  const bricksBuilder = mp.bricks();
+  const renderWalletBrick = async (bricksBuilder) => {
+    await bricksBuilder.create("wallet", "walletBrick_container", {
+      initialization: {
+        preferenceId,
+      }
+});
+  };
+
+  renderWalletBrick(bricksBuilder);
+  </script>
+<%- include('partials/footer') %>

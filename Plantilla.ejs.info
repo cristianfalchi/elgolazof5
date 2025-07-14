@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Golazo Fútbol 5</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="main-content">
+    <!-- Aquí se inserta el contenido de cada vista -->
+    <%- body %>
+  </div>
+
+  <footer>
+    &copy; <%= new Date().getFullYear() %> El Golazo Fútbol 5 - Laguna Paiva
+  </footer>
+</body>
+</html>
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+footer {
+  background-color: #1D4D8F;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}

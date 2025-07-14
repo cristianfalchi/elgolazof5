@@ -1,0 +1,72 @@
+
+  {
+    "fecha": "2025-07-07",
+    "horas": [
+      {
+        "hora": "12:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "13:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "14:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "15:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "16:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "17:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "18:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "19:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "20:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "21:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "22:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "23:00",
+        "estado": "disponible",
+        "nombre": ""
+      },
+      {
+        "hora": "00:00",
+        "estado": "disponible",
+        "nombre": ""
+      }
+    ]
+  }
+

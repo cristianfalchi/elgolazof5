@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva confirmada</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 40px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .card h1 {
+      color: green;
+    }
+    .details {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .details p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>¡Pago aprobado! 🎉</h1>
+    <p>Gracias por realizar tu reserva.</p>
+
+    <div class="details">
+      <p><strong>Reserva:</strong> <%= reservaId %></p>
+      <p><strong>Estado:</strong> <%= status %></p>
+      <p><strong>Forma de pago:</strong> <%= paymentType %></p>
+      <p><strong>Importe:</strong> $<%= importe %></p>
+    </div>
+
+    <a href="/" style="display:inline-block;margin-top:20px;">Volver al inicio</a>
+  </div>
+</body>
+</html>

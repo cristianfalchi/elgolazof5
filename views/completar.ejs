@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<section class="confirmacion-section">
+  <h2>Confirmá tu reserva</h2>
+
+  <p class="info-turno">
+    Turno seleccionado: <strong><%= nombreDia %> <%= fechaFormateada %></strong>
+    a las <strong><%= hora %> hs</strong>
+  </p>
+
+  <form action="/confirmar" method="POST" class="form-confirmar">
+    <input type="hidden" name="fecha" value="<%= fechaISO %>">
+    <input type="hidden" name="hora" value="<%= hora %>">
+
+    <label for="email">Tu Correo:</label>
+    <input type="email" id="email" name="correo" placeholder="example@correo.com" required>
+
+    <label for="nombre">Tu nombre:</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" maxlength="25" required>
+
+    <div class="botones-confirmacion">
+      <button type="submit" class="btn-mercado">Pagar con Mercado Pago</button>
+
+      <a
+        href="https://wa.me/5493424226393?text=Hola! Quiero reservar la cancha el <%= nombreDia %> <%= fechaFormateada %> a las <%= hora %> hs. Mi nombre es ..."
+        target="_blank" class="btn-whatsapp">
+        Contactar por WhatsApp
+         <img src="../assets/whatsapp-icon.svg" alt="WhatsApp" />
+      </a>
+    </div>
+  </form>
+
+  <div class="volver">
+    <a href="/calendario?fecha=<%= fechaISO %>">
+      <button class="btn-volver">← Volver al calendario</button>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

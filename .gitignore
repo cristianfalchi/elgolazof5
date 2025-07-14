@@ -1,0 +1,13 @@
+# node
+node_modules
+.env
+
+# logs
+*.log
+
+# sistema
+.DS_Store
+*.swp
+
+# Fly.io
+.fly/

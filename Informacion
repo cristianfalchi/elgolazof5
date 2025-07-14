@@ -1,0 +1,207 @@
+DETALLES DE APLICACION
+
+Tipo de Integración: CheckoutPro
+
+User ID: 75841541
+Número de aplicación: 4124004645276581
+
+Public Key:
+Access Token:
+
+CUENTAS DE PRUEBA
+
+Vendedor1
+Usuario: TESTUSER603812499 - Contraseña: KLmoZiUznj
+Comprador1:
+Usuario: TESTUSER358990658 - Contraseña: pIxOTq5A2o
+
+CONCEPTOS IMPORTANTES.
+
+1 - Una preferencia de pago es un objeto o conjunto de información que representa el producto
+o servicio por el que deseas cobrar. Dentro del ecosistema de Mercado Pago,
+este objeto se conoce como `preference`.
+
+2 - El SDK de backend está diseñado para manejar las operaciones del lado del servidor, permitiéndote crear y gestionar preferencias de pago, procesar transacciones y llevar a cabo otras operaciones críticas de manera segura.
+
+3 - Instalacion del SDK --> npm install --save mercadopago
+
+4 - CONFIGURACION E INICIALIZACION DE LA BIBLIOTECA DE MP.
+
+NOTA LINK: https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/configure-development-enviroment#editor_2
+https://www.mercadopago.com.ar/developers/es/docs#online-payments
+
+a) Debemos activas las credenciales de producción y para ello necesitamos un dominio real de nuestro sitio web. O en efecto usamos ngrok para simularlo o enmascararlo. 
+    1. https://dashboard.ngrok.com/get-started/setup/windows (ngrok 3.21.1) 
+    2. Descargamos el ejecutable ngrok.exe 
+    3. .\ngrok config add-authtoken 2zJuSvVZht78MCRZT8YuntPvVER_49VZXxXpRkdKqdfLEE96E 
+    4. Me genera --> https://3f58b02af2cc.ngrok-free.app
+    5. .\ngrok.exe http 8080
+
+b) Completar el campo industria y el nombre del sitio web originado con ngrok.
+c) Aceptamos los terminos y condiciones para activar las credenciales de producción.
+d) Ahora podremos usar el ACCESS_TOKEN de producción.
+
+    Public Key = APP_USR-f05fb5e1-e30f-465d-8394-7c703b1fd20d
+    ACCESS_TOKEN = APP_USR-4124004645276581-070208-b38a89187c76aeedad07156a3141285a-75841541
+    Client ID = 4124004645276581
+    Client Secret = iS5k2LsYoEyRoMLhdUYWBOxNq4ALKxhI
+
+e) En nuestro código hacemos la configuracion correspondiente para avanzar con la preferencia de pago
+
+    // SDK de Mercado Pago
+    import { MercadoPagoConfig, Preference } from 'mercadopago';
+    // Agrega credenciales
+    const client = new MercadoPagoConfig({ accessToken: 'YOUR_ACCESS_TOKEN' });
+
+5 - CREAR Y CONFIGURAR UNA PREFERENCIA DE PAGO.
+
+a) Una preferencia de pago es un objeto que representa el producto o servicio por el cual se desea cobrar. Este objeto se conoce como ´preference´.
+b) Es necesario crear una preferencia de pago para cada producto o flujo de pago que se quira iniciar.
+c) El codigo es el siguiente:  
+ const preference = new Preference(client);
+preference.create({
+body: {
+items: [
+{
+title: 'Mi producto',
+quantity: 1,
+unit_price: 2000
+}
+],
+}
+})
+.then(console.log)
+.catch(console.log);
+
+d) Obtener el identificador de la preferencia. Éste es un identificador de transaccion único para una solicitud de pago específica. En la respuesta de la preferencia, en la propiedad ID estará el identificador. GUARDAMOS ESTE VALOR PORQUE LO VAMOS A NECESITAR EN EL SIGUIENTE PASO DE INTEGRACION.
+
+            "id": "787997534-6dad21a1-6145-4f0d-ac21-66bf7a5e7a58"
+
+e) Elegir el tipo de integración. Sitio Web o Aplicaciones móviles? debemos elegir.
+
+f) Configurar URL de retorno. La url de retorno es la dirección a la cual se redirige al usuario luego de completar el proceso de pago, ya sea exitoso, fallido o pendiente. LA URL DEBE SER UNA PAGINA WEB QUE CONTROLEMOS, COMO UN SERVIDOR CON DOMINIO NOMBRADO (DNS).
+
+            const preference = new Preference(client);
+            preference.create({
+                body: {
+                // ...
+                back_urls: {
+                    success: "https://elgolazof5.com.ar/success",
+                    failure: "https://elgolazof5.com.ar/failure",
+                    pending: "https://elgolazof5.com.ar/pending"
+                },
+                auto_return: "approved",
+                }
+            })
+            // ...
+
+auto_return: Los compradores son redirigidos automáticamente al site cuando se aprueba el pago. El valor predeterminado es approved. El tiempo de redireccionamiento será de hasta 40 segundos y no podrá ser personalizado. Por defecto, también se mostrará un botón de "Volver al sitio".
+
+back_urls: URL de retorno al sitio. Los escenarios posibles son:
+success: URL de retorno cuando se aprueba el pago.
+pending: URL de retorno cuando el pago está pendiente.
+failure: URL de retorno cuando se rechaza el pago.
+
+g) Respuestas de las Urls de retorno.
+
+Retorno de MP: https://e958-190-124-63-68.ngrok-free.app
+
+Las back_urls devolverán, a través de un llamado GET, algunos parámetros útiles. req.query.
+
+            GET /test?collection_id=106400160592&collection_status=rejected&payment_id=106400160592&status=rejected&external_reference=qweqweqwe&payment_type=credit_card&merchant_order_id=29900492508&preference_id=724484980-ecb2c41d-ee0e-4cf4-9950-8ef2f07d3d82&site_id=MLC&processing_mode=aggregator&merchant_account_id=null HTTP/1.1
+            Host: yourwebsite.com
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+            Accept-Encoding: gzip, deflate, br, zstd
+            Accept-Language: es-419,es;q=0.9
+            Connection: keep-alive
+            Referer: https://www.mercadopago.com/checkout/v1/payment/redirect/505f641c-cf04-4407-a7ad-8ca471419ee5/congrats/rejected/?preference-id=724484980-ecb2c41d-ee0e-4cf4-9950-8ef2f07d3d82&router-request-id=0edb64e3-d853-447a-bb95-4f810cbed7f7&p=f2e3a023dd16ac953e65c4ace82bb3ab
+            Sec-Ch-Ua: "Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"
+            Sec-Ch-Ua-Mobile: ?0
+            Sec-Ch-Ua-Platform: "macOS"
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: cross-site
+            Sec-Fetch-User: ?1
+            Upgrade-Insecure-Requests: 1
+
+h) Respuestas en medios de pago offline. En este caso el usuario elige una opcion para pagar en un punto de pago físico.
+
+j) Podriamos presonalizar texto y apariencia de boton de mercado pago.
+
+Informacion al presionar el boton de pago de MP
+https://www.mercadopago.com.ar/checkout/v1/payment/redirect/?preference-id=75841541-1d2a48fb-9b62-481e-b80e-049e2366d7b2&correlation_id=d196221d-0929-4734-b2b3-2f581e934af2&router-request-id=d4957c31-924e-4328-bb74-1fd8810736d8
+
+Vendedor 1 = TESTUSER603812499 / KLmoZiUznj
+Comprador 1 = TESTUSER358990658 / pIxOTq5A2o
+
+### instalar Thunder Client en Visual Code
+
+RESPUESTA AL /webhoot con post desde Mercado Pago una vez que el usuario pagó.
+
+console.log("---------------");
+console.log(JSON.stringify(req.body, null, 2));
+
+---
+
+{
+"resource": "https://api.mercadolibre.com/merchant_orders/32219151984",
+"topic": "merchant_order"
+}
+
+---
+
+{
+"action": "payment.created",
+"api_version": "v1",
+"data": {
+"id": "117008036725"
+},
+"date_created": "2025-07-05T16:35:11Z",
+"id": 122644646225,
+"live_mode": true,
+"type": "payment",
+"user_id": "2513632303"
+}
+
+---
+
+{
+"resource": "117008036725",
+"topic": "payment"
+}
+
+---
+
+{
+"action": "payment.created",
+"api_version": "v1",
+"data": {
+"id": "117008036725"
+},
+"date_created": "2025-07-05T16:35:11Z",
+"id": 122712925568,
+"live_mode": true,
+"type": "payment",
+"user_id": "2513632303"
+}
+
+---
+
+{
+"resource": "https://api.mercadolibre.com/merchant_orders/32219151984",
+"topic": "merchant_order"
+}
+
+---
+
+{
+"resource": "117008036725",
+"topic": "payment"
+}
+
+
+
+
+### Implementacion de una aplicacion con fly.io ###
+1. fly auth login
+2. 
