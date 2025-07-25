@@ -14,8 +14,9 @@ class Server {
 
         // Path string
         this.paths = {
+            home: '/',
             auth: '/auth',
-            home: '/'
+            admin:'/admin'
         }
 
         // Conectar a Base de datos. Justo cuando se esta creando la instancia de mi servidor
@@ -55,8 +56,9 @@ class Server {
     }
 
     routes() {
-
         this.app.use(this.paths.home, require('../routes/reservas'));
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.admin, require('../routes/admin'));
 
         //  Si querés redirigir todo tipo de métodos (GET, POST, etc.), podés usar:
         this.app.use((req, res) => { res.redirect('/') });

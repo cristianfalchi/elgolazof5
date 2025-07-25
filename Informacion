@@ -205,3 +205,8 @@ console.log(JSON.stringify(req.body, null, 2));
 ### Implementacion de una aplicacion con fly.io ###
 1. fly auth login
 2. 
+
+## Cambios en GIT y GITHUB
+git add .
+git commit -m "Descripción de lo que hiciste"
+git push
