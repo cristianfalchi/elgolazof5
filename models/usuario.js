@@ -5,7 +5,6 @@ const UsuarioSchema = Schema({
     password: { type: String, required: true }, 
     rol: { type: String, enum: ['ADMIN', 'USER']},
     active:{type: Boolean},
-    token: {type: String},
     url_image: {type: String}
 });
 

@@ -2,33 +2,34 @@ const jwt = require('jsonwebtoken');
 
 const authentication = (req, res, next) => {
 
+    console.log(req.cookies);
+    
     const token = req.cookies?.token;
     const url = req.originalUrl;
     let user;
 
-    // if (url === '/auth/login') {
-    //     // Si el cliente no envía el token
-    //     if (!token) return res.render('login', {error: ''});
+    console.log(token);
+    console.log(url);
+    
 
-    //     // Si el token es inválido
-    //     user = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    //     if (!user) return res.render('login', {error: ''});
+    if (url === '/auth/login') {
+        // Si el cliente no envía el token
+        if (!token) return res.render('login', { error: '', email: '', password: '' });
 
-    // } else {
-    //     // Si el cliente no envía el token
-    //     if (!token) return res.redirect('/auth/login');
+        // Si el token es inválido
+        user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        if (!user) return res.render('login', { error: 'Token inválido', email: '', password: '' });
 
-    //     // Si el token es inválido
-    //     user = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    //     if (!user) return res.redirect('/auth/login');
-    // }
+    } else {
+        // Si el cliente no envía el token
+        if (!token) return res.redirect('/auth/login');
 
-    // req.user = user
-    req.user = {
-        email: 'cristian@gmail.com',
-        password: 'asdasdasdasdad'
+        // Si el token es inválido
+        user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        if (!user) return res.redirect('/auth/login');
     }
 
+    req.user = user;
     next();
 
 }
@@ -37,3 +38,10 @@ const authentication = (req, res, next) => {
 module.exports = {
     authentication
 }
+
+
+// email:
+// password:
+// rol:
+// active:
+// url_image:

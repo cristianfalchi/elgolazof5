@@ -202,9 +202,17 @@ console.log(JSON.stringify(req.body, null, 2));
 
 
 
-### Implementacion de una aplicacion con fly.io ###
-1. fly auth login
-2. 
+### Algunos comandos de fly.io ###
+fly auth login --> Autenticarte en fly.io
+fly launch --> crea y configura una nueva aplicacion desde el codigo de origen
+fly deploy --> Despliega los cambios de una aplicacion
+fly status --> Muestra el estado de la aplicacion
+fly logs --> Ver los logs de la aplicacion
+fly apps list --> Lista las aplicaciones gestionadas
+fly secrets list --> Lista los secretos de una aplicacion
+fly secrets set --> 
+
+
 
 ## Cambios en GIT y GITHUB
 git add .

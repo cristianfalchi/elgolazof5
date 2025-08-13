@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+
+<div class="form-container">
+  <h2>Agregar turnos para un mes completo</h2>
+
+  <!-- mensaje de exito -->
+  <% if (typeof mensajeExito !== 'undefined') { %>
+  <div>
+    <p style="color: rgb(4, 0, 255);">
+      <i style="border: 1px solid blue; padding: 3px 4px; border-radius: 100%;"
+        class="fa-solid fa-check"></i>
+      <%= mensajeExito %></p>
+  </div>
+  <% } %>
+
+  <!-- mensaje de error -->
+  <% if (typeof error !== 'undefined') { %>
+  <p style="color: red;">
+    <i style="border: 1px solid red; padding: 3px 6px; border-radius: 100%;"
+      class="fa-solid fa-xmark"></i>
+    <%= error %></p>
+  <% } %>
+
+  <form action="/admin/turnos" method="POST">
+    <label for="mes">Mes:</label>
+    <select name="mes" id="mes" required>
+    <% const mesActual = moment().month() + 1; // 1-12 %>
+<% for (let i = 1; i <= 12; i++) { %>
+  <option 
+    value="<%= i.toString().padStart(2, '0') %>" 
+    <%= i === mesActual ? 'selected' : '' %>>
+    <%= moment().month(i - 1).format('MMMM') %>
+  </option>
+<% } %>
+    </select>
+
+    <label for="anio">Año:</label>
+    <input type="number" name="anio" id="anio" value="<%= moment().year() %>"
+      required>
+
+    <label for="horas">Horas por día (separadas por coma):</label>
+    <input type="text" name="horas" placeholder="Ej: 12:00, 13:00, 14:00"
+      value="<%= horas_por_dia %>" required>
+
+    <label>Días de la semana:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="diasHabiles" value="1" checked>
+        Lunes</label>
+      <label><input type="checkbox" name="diasHabiles" value="2" checked>
+        Martes</label>
+      <label><input type="checkbox" name="diasHabiles" value="3" checked>
+        Miércoles</label>
+      <label><input type="checkbox" name="diasHabiles" value="4" checked>
+        Jueves</label>
+      <label><input type="checkbox" name="diasHabiles" value="5" checked>
+        Viernes</label>
+      <label><input type="checkbox" name="diasHabiles" value="6" checked>
+        Sábado</label>
+      <label><input type="checkbox" name="diasHabiles" value="0" checked>
+        Domingo</label>
+    </div>
+    <button type="submit">Generar turnos</button>
+    <a href="/admin/panel">
+      <button type="button">Volver al panel</button>
+    </a>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

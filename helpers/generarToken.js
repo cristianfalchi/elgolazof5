@@ -1,14 +1,13 @@
-const jwt = require('jsonwebtoken');
-
+// const jwt = require('jsonwebtoken');
+import  jwt  from "jsonwebtoken";
 export const generarToken = async (user) => {
 
     try {
            // Genero el tokens
         const payload = {
-            uid: user.uid,
-            nombre: user.nombre,
-            apellido: user.apellido,
-            correo: user.email
+            id: user._id,
+            email: user.email,
+            rol: user.rol,
         }
 
         return jwt.sign(payload, process.env.JWT_SECRET_KEY);

@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
-
+const cookieParser = require('cookie-parser');
 class Server {
 
     constructor() {
@@ -49,6 +49,9 @@ class Server {
 
         // Motor de plantillas que se utilizará
         this.app.set('view engine', 'ejs');
+
+          // para obtener las cookies
+        this.app.use(cookieParser());
 
         this.app.use(express.urlencoded({
             extended: true,

@@ -1,14 +1,13 @@
 <%- include('partials/header') %>
 
 <div class="admin-panel-container">
-  <h2>Bienvenido, <%= nombre %></h2>
-  <p>Este es el panel de administración.</p>
+  <h2>Bienvenida, <%= nombre %></h2>
 
-  <ul>
-    <li><a href="/admin/reservas">Ver reservas</a></li>
-    <li><a href="/admin/usuarios">Administrar usuarios</a></li>
-    <li><a href="/logout">Cerrar sesión</a></li>
-  </ul>
+  <div class="admin-actions">
+    <a href="#" class="admin-btn">Ver reservas</a>
+    <a href="/admin/turnos" class="admin-btn">Agregar o eliminar turnos</a>
+    <a href="#" class="admin-btn">Reservar turno manualmente</a>
+  </div>
 </div>
 
 <%- include('partials/footer') %>

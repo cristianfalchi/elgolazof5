@@ -3,11 +3,11 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos} = require('../middlewares');
 const { authentication } = require('../middlewares/authenticaction');
-const { login, authloginStart } = require('../controllers/auth');
+const { authloginStart, userRegister } = require('../controllers/auth');
 
 const router = Router();
 
-router.get('/login',authentication, login); // mando la referencia del controlador - no estoy ejecutando
+router.get('/login',authentication); // mando la referencia del controlador - no estoy ejecutando
 
 router.post('/login', [    
     check('email', 'El correo es obligatorio').isEmail(),
@@ -15,6 +15,7 @@ router.post('/login', [
     validarCampos
 ], authloginStart);
 
+router.post('/register', userRegister);
 
 module.exports = router;
 
