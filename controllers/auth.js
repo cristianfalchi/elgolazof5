@@ -6,8 +6,14 @@ const bcryptjs = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const { generarToken } = require('../helpers/generarToken');
 
-const authloginStart = async (req = request, res = response) => {
+const getFormAuthLogin = (req = request, res = response) => {
 
+    console.log(req.originalUrl);
+    return res.render('admin_login', { error: '', email: '', password: '' });
+
+}
+
+const authloginStart = async (req = request, res = response) => {
 
     try {
         const { email, password } = req.body;
@@ -31,18 +37,17 @@ const authloginStart = async (req = request, res = response) => {
         // Genero el tokens
         const token = await generarToken(user);
 
-        console.log(token);
-
         // envio el token al cliente para posteriores peticiones
         res.cookie('token', token, { httpOnly: true });
         res.redirect('/admin/panel');
 
     } catch (error) {
         console.log(error);
-        res.render('login', {
+        res.render('admin_login', {
             email: error?.email,
             password: error?.password,
-            error: error.message
+            error: error.message,
+            user: req.user
         });
 
     }
@@ -79,7 +84,15 @@ const userRegister = async (req = request, res = response) => {
     }
 }
 
+const logoutStart = async (req = request, res = response) => {
+
+    res.clearCookie('token');
+    res.redirect('/');
+}
+
 module.exports = {
+    getFormAuthLogin,
     authloginStart,
-    userRegister
+    userRegister,
+    logoutStart
 }

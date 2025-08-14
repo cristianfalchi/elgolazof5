@@ -5,11 +5,9 @@ const Turno = require('../models/turno');
 
 const panelAdmin = (req = response, res = request) => {
     console.log("Ingresando a /admin/panel");
-    
-    const nombre = req.user?.nombre || 'Administrador';
-    res.render('panel', { nombre });
+     
+    res.render('admin_panel', { user: req.user });
 };
-
 
 // GET: formulario
 const mostrarFormularioMes = (req, res) => {
@@ -17,7 +15,8 @@ const mostrarFormularioMes = (req, res) => {
     const mensajeExito = req.query.msg;
     const error = req.query.error;
 
-    res.render('turnos', {
+    res.render('admin_turnos', {
+        user: req.user,
         moment,
         horas_por_dia: process.env.HORAS_POR_DIA,
         mensajeExito,
@@ -73,8 +72,36 @@ const crearTurnosMes = async (req, res) => {
     }
 };
 
+const verReservasPorPeriodo = async (req = request, res = response) => {
+    try {
+        const { fechaInicio, fechaFin } = req.query;
+
+        let reservas = [];
+
+        if (fechaInicio && fechaFin) {
+            const inicio = moment(fechaInicio, 'YYYY-MM-DD').startOf('day').toDate();
+            const fin = moment(fechaFin, 'YYYY-MM-DD').endOf('day').toDate();
+
+            reservas = await Reserva.find({
+                fecha: { $gte: inicio, $lte: fin }
+            }).sort({ fecha: 1, hora: 1 });
+        }
+
+        res.render('admin_reservas_periodo', {
+            user: req.user,
+            reservas,
+            fechaInicio: fechaInicio || '',
+            fechaFin: fechaFin || ''
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al obtener las reservas');
+    }
+}
+
 module.exports = {
     panelAdmin,
     mostrarFormularioMes,
-    crearTurnosMes
+    crearTurnosMes,
+    verReservasPorPeriodo
 }

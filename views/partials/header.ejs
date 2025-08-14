@@ -4,13 +4,26 @@
     <meta charset="UTF-8">
     <title><%= 'El Golazo Fútbol 5' %></title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <body >
-     <div class="main-content">
-    <header class="container" style="margin-bottom: 10px;">
-      <a href="/">
-        <img src="../assets/el golazo.png" alt="El Golazo Futbol 5">
-      </a>
-    </header>
-    <main class="container">
+  <body>
+    <div class="main-content">
+      <header class="container" style="margin-bottom: 10px;">
+        <strong>
+          <% if(!user) { %>
+          <i class="fa-solid fa-user"></i>
+          <a href="/auth/login">Ingresar</a>
+          <% } else {%>
+          <i class="fa-solid fa-user-slash"></i>
+          <a href="/auth/logout">Salir</a>
+          <% } %>
+        </strong>
+
+        <a href="/">
+          <img src="../assets/el golazo.png" alt="El Golazo Futbol 5">
+        </a>
+      </header>
+      <main class="container">

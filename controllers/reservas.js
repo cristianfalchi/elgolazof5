@@ -32,7 +32,7 @@ const estado = {
 const homeReserva = async (req = request, res = response) => {
 
     console.log("Ingresando a /home");
-    return res.render('index', { title: 'El Golazo Fútbol 5' })
+    return res.render('index', { title: 'El Golazo Fútbol 5', user: req.user })
 }
 
 const calendarioReserva = async (req = request, res = response) => {
@@ -48,7 +48,8 @@ const calendarioReserva = async (req = request, res = response) => {
         fechaISO: fecha.format('YYYY-MM-DD'),
         nombreDia: fecha.format('dddd'),
         fechaFormateada: fecha.format('DD [de] MMMM [de] YYYY'),
-        horarios
+        horarios,
+        user: req.user
     });
 }
 
@@ -98,7 +99,8 @@ const completarReserva = async (req = request, res = response) => {
         fechaISO: fecha,
         hora,
         nombreDia: fechaMoment.format('dddd'),
-        fechaFormateada: fechaMoment.format('DD [de] MMMM [de] YYYY')
+        fechaFormateada: fechaMoment.format('DD [de] MMMM [de] YYYY'),
+        user: req.user
     });
 }
 
@@ -116,7 +118,8 @@ const confirmarReserva = async (req = request, res = response) => {
         nombre,
         hora,
         nombreDia: fechaMoment.format('dddd'),
-        fechaFormateada: fechaMoment.format('DD [de] MMMM [de] YYYY')
+        fechaFormateada: fechaMoment.format('DD [de] MMMM [de] YYYY'),
+        user: req.user
     });
 }
 
@@ -226,7 +229,8 @@ const successReserva = async (req = request, res = response) => {
             reservaId: external_reference,
             status: estado[status],
             paymentType: descripcion,
-            importe
+            importe,
+            user: req.user
         });
     } else {
         res.redirect("failure");
@@ -313,7 +317,6 @@ const webhookReserva = async (req = request, res = response) => {
         );
 
         const { fecha, hora, usuario } = await Reserva.findOne({ "mercado_pago.external_reference": external_reference })
-        console.log(fecha, usuario, hora);
 
         // Actualizo el turno
         await Turno.updateOne({ fecha: fecha, "horas.hora": hora },
@@ -334,6 +337,8 @@ const webhookReserva = async (req = request, res = response) => {
     }
 
 }
+
+
 
 module.exports = {
     homeReserva,

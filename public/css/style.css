@@ -26,6 +26,18 @@ body {
   margin: auto;
 }
 
+.container strong {
+  display: block;
+  text-align: end;
+  margin-bottom: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+  }
+
+  .container strong a {
+    text-decoration: none;
+  }
+
 .home-section {
   display: flex;
   flex-direction: column;
